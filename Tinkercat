@@ -1,1 +1,30 @@
 // Codigo para Tinkerkat
+#include <Adafruit_NeoPixel.h>
+
+const byte neopixelPin = 10; 
+int y = 0;
+int x=255;
+Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(100, neopixelPin, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  
+  neopixel.begin();  
+}
+
+void loop() {    
+  
+  for(int i=0;i<20;i++){    
+    for(int j=0;j<100;j++){
+      	if(j%2==0)  neopixel.setPixelColor(j, x, 0, y); 
+      	else  neopixel.setPixelColor(j, y, 0, x); 
+            	  
+    }
+    neopixel.show();        
+    delay(1000);
+  	x-=10;
+  	y+=10;
+  }   
+  neopixel.clear(); 
+  neopixel.show();
+  delay(100);     
+}
