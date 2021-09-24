@@ -2,4 +2,8 @@
     <qresource prefix="/new/prefix1">
         <file>Mov lados.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>prueba.png</file>
+        <file>descarga.png</file>
+    </qresource>
 </RCC>
