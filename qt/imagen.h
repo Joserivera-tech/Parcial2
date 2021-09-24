@@ -24,7 +24,7 @@ public:
     void GenerarMatColores(unsigned int x,unsigned int y);
     void GetMat10x10(unsigned int w,unsigned int h);
     void Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int dy);
-
+    void Im10x10();
 };
 
 #endif // IMAGEN_H

@@ -79,4 +79,11 @@ void Imagen::Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int 
     Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy);
 }
 
-
+void Imagen::Im10x10(){
+    for(int i =0;i<Mat10x10.size();i++){
+        for(int j=0;j<Mat10x10[i].size();j++){
+            cout << Mat10x10[i][j][0] << "-" << Mat10x10[i][j][1] << "-" << Mat10x10[i][j][2] <<" / ";
+        }
+         cout << endl;
+    }
+}

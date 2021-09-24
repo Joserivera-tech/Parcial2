@@ -11,7 +11,7 @@ int main()
     w=I->w;
     I->GenerarMatColores(w,h);
     I->GetMat10x10(w,h);
-
+    I->Im10x10();
     delete I;
     return 0;
 }
