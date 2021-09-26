@@ -1,4 +1,3 @@
-// Codigo para Tinkerkat
 #include <Adafruit_NeoPixel.h>
 #include <string.h>
 
@@ -6,7 +5,7 @@ const byte neopixelPin = 10;
 int y = 0;
 int x=255;
 int Arreglo[10][10][3];
-String mat="50-10-10-10-10-10-10-10-10-19-";
+String mat="50-10-10-/10-10-10-/10-10-10-/19-19-19-/";
 Adafruit_NeoPixel neopixel = Adafruit_NeoPixel(100, neopixelPin, NEO_GRB + NEO_KHZ800);
 
 
@@ -14,8 +13,6 @@ void setup() {
   Serial.begin(9600);
   neopixel.begin();  
   leer_mat();
-  
-  
 }
 
 void loop() {    
@@ -40,27 +37,24 @@ void ImpMat(){
 }
 
 void leer_mat(){
-  unsigned int c=0;
-  String value, Color[3];
-  unsigned int color[100][3];
-  for(int i=0;i<300;){
-    for(int x=0;;x++){
-      if(mat[c+x]=='/'){
-        for(unsigned int d=0;;){
-          if(mat[c+x+d]!='-') Color[d]+=;
-          
-        }
-        Serial.println(value);
-        value="";
-        i++;
-        c+=x+1;
-        break;
-      }
-      else{
-        value+=mat[c+x];
-      }
+  unsigned int c=0,k=0;
+  String values, Color[3], C;
+  unsigned int colors[100][3];
+  for(int i=0;i<mat.length();i++){
+    if(mat[i]=='/'){
+      values = getPixel(i+1);
     }
-    
   }
-  
+}
+String getPixel(int x){
+  String pixel;
+  for(int i=x;mat[i]!='/';i++){
+    if(mat[i]=='/'){
+      	Serial.println(pixel);
+    }
+    else{
+      pixel+=mat[i];
+    }
+  }
+  return pixel;
 }
