@@ -80,10 +80,19 @@ void Imagen::Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int 
 }
 
 void Imagen::Im10x10(){
+    string salida="";
+    cout << "/";
     for(int i =0;i<Mat10x10.size();i++){
         for(int j=0;j<Mat10x10[i].size();j++){
-            cout << Mat10x10[i][j][0] << "-" << Mat10x10[i][j][1] << "-" << Mat10x10[i][j][2] <<" / ";
+            salida+=to_string(Mat10x10[i][j][0]);
+            salida+="-";
+            salida+=to_string(Mat10x10[i][j][1]);
+            salida+="-";
+            salida+=to_string(Mat10x10[i][j][2]);
+            salida+="-";
+            salida+="/";
         }
-         cout << endl;
     }
+    cout << salida << endl;
+    cout << salida.length() << endl;
 }
