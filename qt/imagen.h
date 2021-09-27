@@ -2,6 +2,7 @@
 #define IMAGEN_H
 #include <QImage>
 #include <QVector>
+#include <math.h>
 #include <iostream>
 
 using namespace std;
@@ -17,13 +18,13 @@ private:
 
 public:
     QVector<QVector<QVector<int>>> MatColor;
-    unsigned int h, w;
+    unsigned long int h, w;
     Imagen(QString folder);
     ~Imagen();
-    int GetColor(unsigned int x, unsigned int y,char tipe);
-    void GenerarMatColores(unsigned int x,unsigned int y);
-    void GetMat10x10(unsigned int w,unsigned int h);
-    void Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int dy);
+    int GetColor(unsigned long int x, unsigned long int y,char tipe);
+    void GenerarMatColores(unsigned long int x, unsigned long int y);
+    void GetMat10x10(unsigned long int w, unsigned long int h);
+    void Prom(unsigned long int x, unsigned long int y, unsigned int dx, unsigned int dy, unsigned long int Mx, unsigned long int My);
     void Im10x10();
 };
 

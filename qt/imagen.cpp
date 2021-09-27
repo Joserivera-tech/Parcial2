@@ -19,7 +19,7 @@ Imagen::~Imagen(){
 
 }
 
-int Imagen::GetColor(unsigned int x, unsigned int y,char tipe){
+int Imagen::GetColor(unsigned long int x, unsigned long int y,char tipe){
     color = Img.pixelColor(x,y);
     if(tipe=='G'){
         return color.green();
@@ -33,17 +33,17 @@ int Imagen::GetColor(unsigned int x, unsigned int y,char tipe){
     else return 0;
 }
 
-void Imagen::GenerarMatColores(unsigned int x, unsigned int y){
+void Imagen::GenerarMatColores(unsigned long int x, unsigned long int y){
     MatColor.resize(y);
-    for(unsigned int f=0;f<y;f++){
+    for(unsigned long int f=0;f<y;f++){
         MatColor[f].resize(x);
-        for(unsigned int c=0;c<x;c++){
+        for(unsigned long int c=0;c<x;c++){
             MatColor[f][c].resize(3);
         }
     }
 
     for(unsigned int f=0;f<y;f++){
-        for(unsigned int c=0;c<x;c++){
+        for(unsigned long int c=0;c<x;c++){
             MatColor[f][c][0]=GetColor(c,f,'R');
             MatColor[f][c][1]=GetColor(c,f,'G');
             MatColor[f][c][2]=GetColor(c,f,'B');
@@ -51,35 +51,42 @@ void Imagen::GenerarMatColores(unsigned int x, unsigned int y){
     }
 }
 
-void Imagen::GetMat10x10(unsigned int w,unsigned int h){
-    if(w>10 && h>10){
+void Imagen::GetMat10x10(unsigned long int w, unsigned long int h){
+    unsigned int Dx=w/10, Dy=h/10;
+    unsigned long int x, y;
+    float Px, Py, Dfx=w/10.0,Dfy=h/10.0;
+    if(w>=10 && h>=10){
         for(unsigned int f=0;f<10;f++){
             for(unsigned int c=0;c<10;c++){
-                if(f+1==10 && h%10!=0) Prom(c*(w/10),f*(h/10),w/10,h%10);
-                else if(c+1==10 && w%10!=0) Prom(c*(w/10),f*(h/10),w%10,w/10);
-                else if(f+1==10 && h%10!=0 && c+1==10 && w%10!=0) Prom(c*(w/10),f*(h/10),w%10,h%10);
-                else Prom(c*(w/10),f*(h/10),w/10,h/10);
+                Px=float(c)*Dfx; Py=float(f)*Dfy;
+                if(Px-floor(Px)<0.5) x=floor(Px);
+                else  x=ceil(Px);
+                if(Py-floor(Py)<0.5) y=floor(Py);
+                else y=ceil(Py);
+                Prom(x,y,Dx,Dy,c,f);
+                cout << x <<' '<<y << endl;
             }
         }
     }
-    cout << "terminado" << endl;
+
+
 }
 
-void Imagen::Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int dy){
+void Imagen::Prom(unsigned long int x, unsigned long int y, unsigned int dx, unsigned int dy, unsigned long int Mx, unsigned long int My){
     unsigned int Sr=0, Sg=0, Sb=0; //sumas de colores
-    for(unsigned int f=y;f<y+dy;f++){
-        for(unsigned int c=x;c<x+dx;c++){
+    for(unsigned long int f=y;f<h && f<y+dy;f++){
+        for(unsigned long int c=x;c<w && c<x+dx;c++){
             Sr+=MatColor[f][c][0];
             Sg+=MatColor[f][c][1];
             Sb+=MatColor[f][c][2];
         }
     }
-    if(Sr/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][0]=Sr/(dx*dy)-1;
-    else Mat10x10[y/(h/10)][x/(w/10)][0]=Sr/(dx*dy);
-    if(Sg/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][1]=Sg/(dx*dy)-1;
-    else Mat10x10[y/(h/10)][x/(w/10)][1]=Sg/(dx*dy);
-    if(Sb/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy)-1;
-    else Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy);
+    if(Sr/(dx*dy)==255) Mat10x10[My][Mx][0]=Sr/(dx*dy)-1;
+    else Mat10x10[My][Mx][0]=Sr/(dx*dy);
+    if(Sg/(dx*dy)==255) Mat10x10[My][Mx][1]=Sg/(dx*dy)-1;
+    else Mat10x10[My][Mx][1]=Sg/(dx*dy);
+    if(Sb/(dx*dy)==255) Mat10x10[My][Mx][2]=Sb/(dx*dy)-1;
+    else Mat10x10[My][Mx][2]=Sb/(dx*dy);
 }
 
 void Imagen::Im10x10(){
