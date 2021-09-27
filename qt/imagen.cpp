@@ -74,25 +74,33 @@ void Imagen::Prom(unsigned int x, unsigned int y, unsigned int dx, unsigned int 
             Sb+=MatColor[f][c][2];
         }
     }
-    Mat10x10[y/(h/10)][x/(w/10)][0]=Sr/(dx*dy);
-    Mat10x10[y/(h/10)][x/(w/10)][1]=Sg/(dx*dy);
-    Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy);
+    if(Sr/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][0]=Sr/(dx*dy)-1;
+    else Mat10x10[y/(h/10)][x/(w/10)][0]=Sr/(dx*dy);
+    if(Sg/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][1]=Sg/(dx*dy)-1;
+    else Mat10x10[y/(h/10)][x/(w/10)][1]=Sg/(dx*dy);
+    if(Sb/(dx*dy)==255) Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy)-1;
+    else Mat10x10[y/(h/10)][x/(w/10)][2]=Sb/(dx*dy);
 }
 
 void Imagen::Im10x10(){
     string salida="";
-    cout << "/";
+    salida.push_back( '{');
     for(int i =0;i<Mat10x10.size();i++){
+        salida.push_back('{');
         for(int j=0;j<Mat10x10[i].size();j++){
+            salida.push_back('{');
             salida+=to_string(Mat10x10[i][j][0]);
-            salida+="-";
+            salida+=",";
             salida+=to_string(Mat10x10[i][j][1]);
-            salida+="-";
+            salida+=",";
             salida+=to_string(Mat10x10[i][j][2]);
-            salida+="-";
-            salida+="/";
+            salida.push_back('}');
+            if(j<Mat10x10[i].size()-1) salida.push_back(',');
         }
+        salida.push_back('}');
+        if(i<Mat10x10[i].size()-1) salida.push_back(',');
     }
+    salida.push_back('}');
     cout << salida << endl;
     cout << salida.length() << endl;
 }
