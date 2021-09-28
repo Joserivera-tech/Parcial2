@@ -1,18 +1,26 @@
 #include "imagen.h"
 
-Imagen::Imagen(QString folder)
+Imagen::Imagen()
 {
-    Img.load(folder);
-    h=Img.height();
-    w=Img.width();
-    //Creacion de la nueva matriz
-    Mat10x10.resize(10);
-    for(unsigned int f=0;f<10;f++){
-        Mat10x10[f].resize(10);
-        for(unsigned int c=0;c<10;c++){
-            Mat10x10[f][c].resize(3);
+
+    string ing;
+    cout << "Ingrese la direccion de la imagen:"<< endl;
+    cin >> ing;
+    QString folder=QString::fromStdString(ing);
+    if(Img.load(folder)){
+        h=Img.height();
+        w=Img.width();
+        //Creacion de la nueva matriz
+        Mat10x10.resize(10);
+        for(unsigned int f=0;f<10;f++){
+            Mat10x10[f].resize(10);
+            for(unsigned int c=0;c<10;c++){
+                Mat10x10[f][c].resize(3);
+            }
         }
+        cout << "Imagen cargada correctamente"<<endl;
     }
+    else cout << "Imagen invalida"<<endl;
 }
 
 Imagen::~Imagen(){
@@ -49,27 +57,13 @@ void Imagen::GenerarMatColores(unsigned long int x, unsigned long int y){
             MatColor[f][c][2]=GetColor(c,f,'B');
         }
     }
+
 }
 
-void Imagen::GetMat10x10(unsigned long int w, unsigned long int h){
-    unsigned int Dx=w/10, Dy=h/10;
-    unsigned long int x, y;
-    float Px, Py, Dfx=w/10.0,Dfy=h/10.0;
-    if(w>=10 && h>=10){
-        for(unsigned int f=0;f<10;f++){
-            for(unsigned int c=0;c<10;c++){
-                Px=float(c)*Dfx; Py=float(f)*Dfy;
-                if(Px-floor(Px)<0.5) x=floor(Px);
-                else  x=ceil(Px);
-                if(Py-floor(Py)<0.5) y=floor(Py);
-                else y=ceil(Py);
-                Prom(x,y,Dx,Dy,c,f);
-                cout << x <<' '<<y << endl;
-            }
-        }
-    }
-
-
+void Imagen::reSize(unsigned long int w, unsigned long int h){
+    if(w<10 || h<10) sobreMuestreo();
+    subMuestreo();
+    cout << "Redimecionamiento con exito, su numa matriz de colores es:\n ";
 }
 
 void Imagen::Prom(unsigned long int x, unsigned long int y, unsigned int dx, unsigned int dy, unsigned long int Mx, unsigned long int My){
@@ -110,4 +104,57 @@ void Imagen::Im10x10(){
     salida.push_back('}');
     cout << salida << endl;
     cout << salida.length() << endl;
+}
+
+void Imagen::subMuestreo(){
+    unsigned int Dx=w/10, Dy=h/10;
+    unsigned long int x, y;
+    float Px, Py, Dfx=w/10.0,Dfy=h/10.0;
+    for(unsigned int f=0;f<10;f++){
+        for(unsigned int c=0;c<10;c++){
+            Px=float(c)*Dfx; Py=float(f)*Dfy;
+            if(Px-floor(Px)<0.5) x=floor(Px);
+            else  x=ceil(Px);
+            if(Py-floor(Py)<0.5) y=floor(Py);
+            else y=ceil(Py);
+            Prom(x,y,Dx,Dy,c,f);
+        }
+    }
+}
+
+void Imagen::sobreMuestreo(){
+    QVector<QVector<QVector<int>>> New_mat;
+    unsigned int nsize=1;
+    while(w*nsize<10 || h*nsize<10){
+        nsize++;
+    }
+    New_mat.resize((h*nsize));
+    for(unsigned int f=0;f<(h*nsize);f++){
+        New_mat[f].resize(w*nsize);
+        for(unsigned int c=0;c<(w*nsize);c++){
+            New_mat[f][c].resize(3);
+        }
+    }
+
+    for(unsigned int f=0;f<h*nsize;f+=nsize){
+        for(unsigned int c=0;c<w*nsize;c+=nsize){
+            //relleno
+            New_mat=fill(c,f,nsize,New_mat);
+        }
+    }
+    MatColor.clear();
+    MatColor=New_mat;
+    h=New_mat.size();
+    w=New_mat[0].size();
+}
+
+QVector<QVector<QVector<int>>> Imagen::fill(unsigned int x, unsigned int y,unsigned dif, QVector<QVector<QVector<int>>> mat){
+    for(unsigned int f=y;f<y+dif;f++){
+        for(unsigned int c=x;c<x+dif;c++){
+            mat[f][c][0]=MatColor[y/dif][x/dif][0];
+            mat[f][c][1]=MatColor[y/dif][x/dif][1];
+            mat[f][c][2]=MatColor[y/dif][x/dif][2];
+        }
+    }
+    return mat;
 }

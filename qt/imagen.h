@@ -19,13 +19,16 @@ private:
 public:
     QVector<QVector<QVector<int>>> MatColor;
     unsigned long int h, w;
-    Imagen(QString folder);
+    Imagen();
     ~Imagen();
     int GetColor(unsigned long int x, unsigned long int y,char tipe);
     void GenerarMatColores(unsigned long int x, unsigned long int y);
-    void GetMat10x10(unsigned long int w, unsigned long int h);
+    void reSize(unsigned long int w, unsigned long int h);
     void Prom(unsigned long int x, unsigned long int y, unsigned int dx, unsigned int dy, unsigned long int Mx, unsigned long int My);
     void Im10x10();
+    void sobreMuestreo();
+    void subMuestreo();
+    QVector<QVector<QVector<int>>> fill(unsigned int x, unsigned int y,unsigned dif, QVector<QVector<QVector<int>>> mat);
 };
 
 #endif // IMAGEN_H
