@@ -4,6 +4,7 @@
 #include <QVector>
 #include <math.h>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ public:
     void Im10x10();
     void sobreMuestreo();
     void subMuestreo();
+    void escribir(string texto, string nombre);
     QVector<QVector<QVector<int>>> fill(unsigned int x, unsigned int y,unsigned dif, QVector<QVector<QVector<int>>> mat);
 };
 

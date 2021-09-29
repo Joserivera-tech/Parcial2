@@ -1,7 +1,6 @@
 #include "imagen.h"
 
-Imagen::Imagen()
-{
+Imagen::Imagen(){
 
     string ing;
     cout << "Ingrese la direccion de la imagen:"<< endl;
@@ -63,7 +62,7 @@ void Imagen::GenerarMatColores(unsigned long int x, unsigned long int y){
 void Imagen::reSize(unsigned long int w, unsigned long int h){
     if(w<10 || h<10) sobreMuestreo();
     subMuestreo();
-    cout << "Redimecionamiento con exito, su numa matriz de colores es:\n ";
+    cout << "Redimecionamiento con exito, su nueva matriz de colores es:\n ";
 }
 
 void Imagen::Prom(unsigned long int x, unsigned long int y, unsigned int dx, unsigned int dy, unsigned long int Mx, unsigned long int My){
@@ -102,14 +101,16 @@ void Imagen::Im10x10(){
         if(i<Mat10x10[i].size()-1) salida.push_back(',');
     }
     salida.push_back('}');
+    escribir(salida,"New_mat10x10.txt");
     cout << salida << endl;
-    cout << salida.length() << endl;
+
 }
 
 void Imagen::subMuestreo(){
     unsigned int Dx=w/10, Dy=h/10;
     unsigned long int x, y;
     float Px, Py, Dfx=w/10.0,Dfy=h/10.0;
+
     for(unsigned int f=0;f<10;f++){
         for(unsigned int c=0;c<10;c++){
             Px=float(c)*Dfx; Py=float(f)*Dfy;
@@ -157,4 +158,13 @@ QVector<QVector<QVector<int>>> Imagen::fill(unsigned int x, unsigned int y,unsig
         }
     }
     return mat;
+}
+
+void Imagen::escribir(string texto, string nombre)
+{
+
+    fstream text(nombre, fstream::out);
+    text << texto;
+    text.close();
+
 }
